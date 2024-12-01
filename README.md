@@ -34,6 +34,8 @@ El proyecto está construido de la siguiente manera:
 
 - **datos/**: Carpeta que contiene archivos `.csv`, `.json` o `.pkl` generados durante la captura y tratamiento de los datos.
 
+- **flask/**: Carpeta que contien un archivo `.py` para la ejecución de la API de *flask*.
+
 - **images/**: Carpeta que contiene archivos de imagen generados durante la ejecución del código o de fuentes externas.
 
 - **notebooks/**: Carpeta que contiene los archivos `.ipynb` utilizados en la captura y tratamiento de los datos. Están numerados para su ejecución secuencial, y contenidos dentro de 5 carpetas, una para cada modelo, conteniendo cada una de ellas:
@@ -45,6 +47,8 @@ El proyecto está construido de la siguiente manera:
   - Únicamente en el modelo 5: `6_Predicciones`
 
 - **src/**: Carpeta que contiene los archivos `.py`, con las funciones y variables utilizadas en los distintos notebooks.
+
+- **streamlit/**: Carpeta que contien un archivo `.py` para la ejecución de la app *streamlit*.
 
 - `.gitignore`: Archivo que contiene los archivos y extensiones que no se subirán a nuestro repositorio, como los archivos .env, que contienen contraseñas.
 
@@ -125,13 +129,13 @@ El proyecto está construido de la siguiente manera:
 
 - La siguiente tabla resumen muestra cómo se han tratado los datos en las distintas etapas del preprocesamiento, y los resultados obtenidos tras probar modelos utilizando la Regresión Logística, Decision Tree, Random Forest, Gradient Boosting y XGBoost.
 
-| **Modelo** | **Duplicados** | **Encoding** | **Outliers**    | **Estandarización** | **Desbalanceo** | **Mejor modelo** | **Recall**   |
-|------------|----------------|--------------|------------------|----------------------|-----------------|------------------|--------------|
-| 1          | Se mantienen   | Catboost     | 42 eliminados    | Standard             | No gestionado   | XGBoost          | 1 / 0.97     |
-| 2          | Se eliminan    | Target       | 16 eliminados    | Standard             | No gestionado   | GradientBoost    | 1 / 0.83     |
-| 3          | Se eliminan    | Target       | 16 eliminados    | Standard             | 59%-41%         | Random Forest    | 0.95 / 0.88  |
-| 4          | Se eliminan    | Catboost     | 13 eliminados    | Standard             | 59%-41%         | XGBoost          | 1 / 0.86     |
-| 5          | Se eliminan    | Target       | 15 eliminados    | Standard             | 50-50%          | DecisionTree     | 0.96 / 0.79  |
+| **Modelo** | **Duplicados** | **Encoding** | **Outliers**    | **Estandarización** | **Desbalanceo** | **Mejor modelo** | **Recall**   | **Kappa**    |
+|------------|----------------|--------------|------------------|----------------------|-----------------|------------------|--------------|--------------|
+| 1          | Se mantienen   | Catboost     | 42 eliminados    | Standard             | No gestionado   | XGBoost          | 1 / 0.97     | 1 / 0.88     |
+| 2          | Se eliminan    | Target       | 16 eliminados    | Standard             | No gestionado   | GradientBoost    | 1 / 0.83     | 0.99 / 0.24  |
+| 3          | Se eliminan    | Target       | 16 eliminados    | Standard             | 59%-41%         | Random Forest    | 0.95 / 0.88  | 0.89 / 0.75  |
+| 4          | Se eliminan    | Catboost     | 13 eliminados    | Standard             | 59%-41%         | XGBoost          | 1 / 0.86     | 1 / 0.71     |
+| 5          | Se eliminan    | Target       | 15 eliminados    | Standard             | 50-50%          | DecisionTree     | 0.96 / 0.79  | 0.93 / 0.57  |
 
 - Nos hemos quedado con el Modelo #5 usando el Decision Tree, por ser el que mejores métricas aporta controlando el overfitting.
 
