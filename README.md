@@ -27,6 +27,8 @@
 
 - El modelo debe ser capaz de responder estas preguntas y ofrecer predicciones precisas que puedan usarse para tomar decisiones informadas. Esto significa que, además de construir un modelo que funcione, se deben  interpretar sus resultados y proponer estrategias basadas en ellos.
 
+- Como reto adicional, nos hemos propuesto crear una app de *streamlit* capaz de hacer una consulta a través de una API de *flask*, de modo que pueda enviarse información a través de un formulario web a la API, que será quién procese la consulta y devuelva por la misma vía la respuesta, que se mostrará en la web creada.
+
 
 ## Estructura del repositorio
 
@@ -34,7 +36,7 @@ El proyecto está construido de la siguiente manera:
 
 - **datos/**: Carpeta que contiene archivos `.csv`, `.json` o `.pkl` generados durante la captura y tratamiento de los datos.
 
-- **flask/**: Carpeta que contien un archivo `.py` para la ejecución de la API de *flask*.
+- **flask/**: Carpeta que contiene un archivo `.py` para la ejecución de la API de *Flask*. Dentro también un Jupyter Notebook para pruebas de la API.
 
 - **images/**: Carpeta que contiene archivos de imagen generados durante la ejecución del código o de fuentes externas.
 
@@ -44,11 +46,10 @@ El proyecto está construido de la siguiente manera:
   - `3_Outliers`
   - `4_Estandarización`
   - `5_Modelos`
-  - Únicamente en el modelo 5: `6_Predicciones`
 
 - **src/**: Carpeta que contiene los archivos `.py`, con las funciones y variables utilizadas en los distintos notebooks.
 
-- **streamlit/**: Carpeta que contien un archivo `.py` para la ejecución de la app *streamlit*.
+- **streamlit/**: Carpeta que contiene un archivo `.py` para la ejecución de la app *streamlit*.
 
 - `.gitignore`: Archivo que contiene los archivos y extensiones que no se subirán a nuestro repositorio, como los archivos .env, que contienen contraseñas.
 
@@ -100,7 +101,10 @@ El proyecto está construido de la siguiente manera:
 
 4. Ejecuta el código en los notebooks, modificándolo si es necesario.
 
-5. Para utilizar la app de Streamlit (que llama a una API de flask para la consulta) y realizar una predicción, tras copiar el repositorio, abre una terminal en la carpeta `streamlit`, y ejecuta el comando `streamlit run main.py`, que abrirá un navegador donde se ejecuta automáticamente el código. Recuerda que antes debes haber instalado la librería `pip install streamlit`.
+5. Para utilizar la app de Streamlit (que llama a una API de flask para la consulta) y realizar una predicción, tras copiar el repositorio:
+   - Abre una terminal en la carpeta `flask`, y ejecuta el comando `python run main.py`, que abrirá una terminal que servirá para el debugging y pondrá en marcha el servidor.
+   - Sin cerrarla la anterior, abre otra terminal en la carpeta `streamlit`, y ejecuta el comando `streamlit run main.py`, que abrirá un navegador donde se ejecuta automáticamente el código.
+   - Recuerda que antes, debes haber instalado las librerías correspondientes (flask y streamlit).
 
 
 ## Resultados, conclusiones y recomendaciones
@@ -121,7 +125,12 @@ El proyecto está construido de la siguiente manera:
 
 - De la misma manera, disponible un PDF resumen con la presentación del problema, los datos, resultados, el modelo elegido, conclusiones y recomendaciones. Disponible para descarga [aquí](datos/Resumen.pdf).
 
-- Para realizar una predicción, tras copiar el repositorio, entra en la carpeta `streamlit`, y ejecuta desde la terminal el archivo `.py` disponible: 
+- Para realizar una predicción, tras copiar el repositorio, entra en la carpeta `flask`, y ejecuta desde la terminal el archivo `.py` disponible: 
+   ```sh
+   python run main.py
+   ```
+
+- Repite el proceso entrando en la carpeta `streamlit`, y ejecuta desde la terminal el archivo `.py` disponible: 
    ```sh
    streamlit run main.py
    ```
