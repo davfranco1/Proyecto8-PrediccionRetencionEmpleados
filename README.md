@@ -3,7 +3,7 @@
 ![imagen](images/header.jpg)
 
 
-## Planteamiento del problema 🏢 🏢**
+## Planteamiento del problema 🏢 🏢
 
 - Este proyecto forma parte de un máster de formación en Data Science e Inteligencia Artificial.
 
@@ -95,7 +95,6 @@ El proyecto está construido de la siguiente manera:
 *Librería para la gestión de avisos*
 - [warnings](https://docs.python.org/3/library/warnings.html)
 
-
 - Este proyecto es funcional a fecha 1 de diciembre de 2024.
 
 
@@ -119,13 +118,31 @@ El proyecto está construido de la siguiente manera:
 
 4. Ejecuta el código en los notebooks, modificándolo si es necesario.
 
-5. Para utilizar la app de Streamlit, copia el repositorio, abre una terminal en la carpeta base, y ejecuta el comando `streamlit run main.py`, que abrirá un navegador donde se ejecuta automáticamente el código. Recuerda que antes debes haber instalado la librería `pip install streamlit`.
+5. Para utilizar la app de Streamlit (que llama a una API de flask para la consulta) y realizar una predicción, tras copiar el repositorio, abre una terminal en la carpeta `streamlit`, y ejecuta el comando `streamlit run main.py`, que abrirá un navegador donde se ejecuta automáticamente el código. Recuerda que antes debes haber instalado la librería `pip install streamlit`.
 
 
-## Conclusiones y próximos pasos
+## Resultados, conclusiones y recomendaciones
 
-- XX
+- La siguiente tabla resumen muestra cómo se han tratado los datos en las distintas etapas del preprocesamiento, y los resultados obtenidos tras probar modelos utilizando la Regresión Logística, Decision Tree, Random Forest, Gradient Boosting y XGBoost.
 
+| **Modelo** | **Duplicados** | **Encoding** | **Outliers**    | **Estandarización** | **Desbalanceo** | **Mejor modelo** | **Recall**   |
+|------------|----------------|--------------|------------------|----------------------|-----------------|------------------|--------------|
+| 1          | Se mantienen   | Catboost     | 42 eliminados    | Standard             | No gestionado   | XGBoost          | 1 / 0.97     |
+| 2          | Se eliminan    | Target       | 16 eliminados    | Standard             | No gestionado   | GradientBoost    | 1 / 0.83     |
+| 3          | Se eliminan    | Target       | 16 eliminados    | Standard             | 59%-41%         | Random Forest    | 0.95 / 0.88  |
+| 4          | Se eliminan    | Catboost     | 13 eliminados    | Standard             | 59%-41%         | XGBoost          | 1 / 0.86     |
+| 5          | Se eliminan    | Target       | 15 eliminados    | Standard             | 50-50%          | DecisionTree     | 0.96 / 0.79  |
+
+- Nos hemos quedado con el Modelo #5 usando el Decision Tree, por ser el que mejores métricas aporta controlando el overfitting.
+
+- Una explicación completa de las métricas y las representaciones gráficas del modelo se pueden consultar en el Notebook [Modelo 5-5_Modelos](notebooks/modelo5/5-5_Modelos.ipynb).
+
+- De la misma manera, disponible un PDF resumen con la presentación del problema, los datos, resultados, el modelo elegido, conclusiones y recomendaciones. Disponible para descarga [aquí](datos/Resumen.pdf).
+
+- Para realizar una predicción, tras copiar el repositorio, entra en la carpeta `streamlit`, y ejecuta desde la terminal el archivo `.py` disponible: 
+   ```sh
+   streamlit run main.py
+   ```
 
 ## Autor
 

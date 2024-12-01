@@ -43,7 +43,7 @@ class AnalisisModelosClasificacion:
     def __init__(self, dataframe, variable_dependiente, random_state=42):
         self.dataframe = dataframe
         self.variable_dependiente = variable_dependiente
-        self.random_state = random_state  # Store random_state as an instance variable
+        self.random_state = random_state
         self.X = dataframe.drop(variable_dependiente, axis=1)
         self.y = dataframe[variable_dependiente]
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
@@ -60,9 +60,10 @@ class AnalisisModelosClasificacion:
         }
         self.resultados = {nombre: {"mejor_modelo": None, "pred_train": None, "pred_test": None} for nombre in self.modelos}
 
-    def ajustar_modelo(self, modelo_nombre, param_grid=None, random_state = 42):
+    def ajustar_modelo(self, modelo_nombre, param_grid=None, random_state=42, devolver_objeto=False, entrenamiento_final=False):
         """
         Ajusta el modelo seleccionado con GridSearchCV.
+        Si entrenamiento_final=True, el modelo se entrena con todo el conjunto de datos (X, y).
         """
         if modelo_nombre not in self.modelos:
             raise ValueError(f"Modelo '{modelo_nombre}' no reconocido.")
@@ -103,27 +104,50 @@ class AnalisisModelosClasificacion:
         if param_grid is None:
             param_grid = parametros_default.get(modelo_nombre, {})
 
+        # Decidir los datos a usar según el parámetro `entrenamiento_final`
+        if entrenamiento_final:
+            print("\n **** Se está entrenando al modelo con TODO el conjunto de datos **** \n")
+            X_datos = self.X
+            y_datos = self.y
+        else:
+            X_datos = self.X_train
+            y_datos = self.y_train
+
         if modelo_nombre == "logistic_regression":
             modelo_logistica = LogisticRegression(random_state=self.random_state)
-            modelo_logistica.fit(self.X_train, self.y_train)
-            self.resultados[modelo_nombre]["pred_train"] = modelo_logistica.predict(self.X_train)
-            self.resultados[modelo_nombre]["pred_test"] = modelo_logistica.predict(self.X_test)
+            modelo_logistica.fit(X_datos, y_datos)
+
+            if not entrenamiento_final:
+                self.resultados[modelo_nombre]["pred_train"] = modelo_logistica.predict(self.X_train)
+                self.resultados[modelo_nombre]["pred_test"] = modelo_logistica.predict(self.X_test)
+            else:
+                self.resultados[modelo_nombre]["pred_train"] = modelo_logistica.predict(self.X)
             self.resultados[modelo_nombre]["mejor_modelo"] = modelo_logistica
 
+            if devolver_objeto:
+                return modelo_logistica
+            
         else:
-            # Ajuste del modelo
+            # Ajuste del modelo con GridSearchCV
             grid_search = GridSearchCV(estimator=modelo, param_grid=param_grid, cv=5, scoring='accuracy', n_jobs=-1, verbose=1)
-            grid_search.fit(self.X_train, self.y_train)
+            grid_search.fit(X_datos, y_datos)
             print(f"El mejor modelo es {grid_search.best_estimator_}")
             self.resultados[modelo_nombre]["mejor_modelo"] = grid_search.best_estimator_
-            self.resultados[modelo_nombre]["pred_train"] = grid_search.best_estimator_.predict(self.X_train)
-            self.resultados[modelo_nombre]["pred_test"] = grid_search.best_estimator_.predict(self.X_test)
+
+            if not entrenamiento_final:
+                self.resultados[modelo_nombre]["pred_train"] = grid_search.best_estimator_.predict(self.X_train)
+                self.resultados[modelo_nombre]["pred_test"] = grid_search.best_estimator_.predict(self.X_test)
+            else:
+                self.resultados[modelo_nombre]["pred_train"] = grid_search.best_estimator_.predict(self.X)
+
+            if devolver_objeto:
+                return grid_search.best_estimator_
 
 
-    def calcular_metricas(self, modelo_nombre):
+    def calcular_metricas(self, modelo_nombre, entrenamiento_final=False):
         """
-        Calcula métricas de rendimiento para el modelo seleccionado, incluyendo AUC, Kappa,
-        tiempo de computación y núcleos utilizados.
+        Calcula métricas de rendimiento para el modelo seleccionado, considerando si el modelo
+        fue entrenado con el conjunto completo (entrenamiento_final=True) o con train/test split.
         """
         if modelo_nombre not in self.resultados:
             raise ValueError(f"Modelo '{modelo_nombre}' no reconocido.")
@@ -131,7 +155,7 @@ class AnalisisModelosClasificacion:
         pred_train = self.resultados[modelo_nombre]["pred_train"]
         pred_test = self.resultados[modelo_nombre]["pred_test"]
 
-        if pred_train is None or pred_test is None:
+        if pred_train is None or (not entrenamiento_final and pred_test is None):
             raise ValueError(f"Debe ajustar el modelo '{modelo_nombre}' antes de calcular métricas.")
         
         modelo = self.resultados[modelo_nombre]["mejor_modelo"]
@@ -139,14 +163,34 @@ class AnalisisModelosClasificacion:
         # Registrar tiempo de ejecución
         start_time = time.time()
         if hasattr(modelo, "predict_proba"):
-            prob_train = modelo.predict_proba(self.X_train)[:, 1]
-            prob_test = modelo.predict_proba(self.X_test)[:, 1]
+            if entrenamiento_final:
+                print("\n **** Se están mostrando las métricas para el entrenamiento del modelo con TODO el conjunto de datos **** \n")
+                prob_train = modelo.predict_proba(self.X)[:, 1]
+                prob_test = None
+            else:
+                prob_train = modelo.predict_proba(self.X_train)[:, 1]
+                prob_test = modelo.predict_proba(self.X_test)[:, 1]
         else:
-            prob_train = prob_test = None
+            prob_train = None
+            prob_test = None
         elapsed_time = time.time() - start_time
 
         # Registrar núcleos utilizados
         num_nucleos = getattr(modelo, "n_jobs", psutil.cpu_count(logical=True))
+
+        # Métricas para conjunto completo (entrenamiento_final=True)
+        if entrenamiento_final:
+            metricas_completas = {
+                "accuracy": accuracy_score(self.y, pred_train),
+                "precision": precision_score(self.y, pred_train, average='weighted', zero_division=0),
+                "recall": recall_score(self.y, pred_train, average='weighted', zero_division=0),
+                "f1": f1_score(self.y, pred_train, average='weighted', zero_division=0),
+                "kappa": cohen_kappa_score(self.y, pred_train),
+                "auc": roc_auc_score(self.y, prob_train) if prob_train is not None else None,
+                "time_seconds": elapsed_time,
+                "n_jobs": num_nucleos
+            }
+            return pd.DataFrame({"Conjunto completo": metricas_completas}).T
 
         # Métricas para conjunto de entrenamiento
         metricas_train = {
@@ -168,12 +212,13 @@ class AnalisisModelosClasificacion:
             "f1": f1_score(self.y_test, pred_test, average='weighted', zero_division=0),
             "kappa": cohen_kappa_score(self.y_test, pred_test),
             "auc": roc_auc_score(self.y_test, prob_test) if prob_test is not None else None,
-            "tiempo_computacion(segundos)": elapsed_time,
-            "nucleos_usados": num_nucleos
+            "time_seconds": elapsed_time,
+            "n_jobs": num_nucleos
         }
 
         # Combinar métricas en un DataFrame
         return pd.DataFrame({"train": metricas_train, "test": metricas_test}).T
+
 
     def plot_matriz_confusion(self, modelo_nombre, figsize=(8, 6)):
         """
