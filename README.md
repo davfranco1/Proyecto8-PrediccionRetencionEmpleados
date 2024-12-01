@@ -115,7 +115,7 @@ El proyecto está construido de la siguiente manera:
 | 4          | Se eliminan    | Catboost     | 13 eliminados    | Standard             | 59%-41%         | XGBoost          | 1 / 0.86     | 1 / 0.71     |
 | 5          | Se eliminan    | Target       | 15 eliminados    | Standard             | 50-50%          | DecisionTree     | 0.96 / 0.79  | 0.93 / 0.57  |
 
-- Nos hemos quedado con el Modelo #5 usando el Decision Tree, por ser el que mejores métricas aporta controlando el overfitting.
+- Nos hemos quedado con el Modelo #5 usando el Decision Tree, por ser el que mejores métricas aporta controlando el overfitting. Al entrenar el modelo con todos los datos, hemos obtenido un recall de 0.90 y una kappa de 0.81.
 
 - Una explicación completa de las métricas y las representaciones gráficas del modelo se pueden consultar en el Notebook [Modelo 5-5_Modelos](notebooks/modelo5/5-5_Modelos.ipynb).
 

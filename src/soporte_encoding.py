@@ -378,24 +378,22 @@ class Encoding:
     
     def target_encoding(self):
         """
-        Realiza codificación target en la variable especificada en el diccionario de codificación.
+        Realiza codificación target en las columnas especificadas en el diccionario de codificación.
 
         Returns:
         - dataframe: DataFrame de pandas con codificación target aplicada.
         - target_encoder: Objeto TargetEncoder utilizado para la codificación.
         """
-
-        # Accedemos a la clave de 'target' para extraer las columnas a codificar.
+        # Accedemos a la clave 'target' para extraer las columnas a codificar
         col_encode = self.diccionario_encoding.get("target", [])
 
         # Si hay columnas especificadas
         if col_encode:
-            # Instanciamos TargetEncoder con los parámetros correctos
-            target_encoder = TargetEncoder(min_samples_leaf=1, smoothing=1.0)
+            # Instanciamos el TargetEncoder con los parámetros correctos
+            target_encoder = TargetEncoder(cols=col_encode, min_samples_leaf=1, smoothing=1.0)
 
-            # Aplicamos la codificación para cada columna en 'col_encode'
-            for col in col_encode:
-                self.dataframe[col] = target_encoder.fit_transform(self.dataframe[col], self.dataframe[self.variable_respuesta])
+            # Aplicamos la codificación a todas las columnas especificadas
+            self.dataframe = target_encoder.fit_transform(self.dataframe, self.dataframe[self.variable_respuesta])
 
         return self.dataframe, target_encoder
 

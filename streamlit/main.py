@@ -2,10 +2,7 @@ import pandas as pd
 import streamlit as st
 import requests
 import json
-
-# Load DataFrame
-df = pd.read_pickle("../datos/pickles_transformados/modelo1/df_sinnulos.pkl")
-
+import time
 
 st.set_page_config(
     page_title="Predictor de la Renuncia de un Empleado",
@@ -13,13 +10,26 @@ st.set_page_config(
     layout="centered"
 )
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: #e6f3ff;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.title("💼 Predictor de la Renuncia de un Empleado")
 st.write("Este modelo es capaz de predecir la probabilidad de que un empleado deje la empresa, según su perfil.")
 
 st.image(
-    "../images/header.jpg",  # URL de la imagen
+    "../images/header.jpg",
     use_container_width=True,
 )
+
+df = pd.read_pickle("../datos/pickles_transformados/modelo1/df_sinnulos.pkl")
 
 # Formularios de entrada
 st.header("👨🏻‍💼👩🏻‍💼 Perfil del empleado")
@@ -60,48 +70,49 @@ with st.form("predict_form"):
 
 if boton_predecir:
     datos = {
-        'Age': age,
-        'BusinessTravel': business_travel,
-        'Department': department,
-        'DistanceFromHome': distance_from_home,
-        'Education': education,
-        'EducationField': education_field,
-        'Gender': gender,
-        'JobLevel': job_level,
-        'JobRole': job_role,
-        'MaritalStatus': marital_status,
-        'MonthlyIncome': monthly_income,
-        'NumCompaniesWorked': num_companies_worked,
-        'PercentSalaryHike': percent_salary_hike,
-        'StockOptionLevel': stock_option_level,
-        'TotalWorkingYears': total_working_years,
-        'TrainingTimesLastYear': training_times_last_year,
-        'YearsAtCompany': years_at_company,
-        'YearsSinceLastPromotion': years_since_last_promotion,
-        'YearsWithCurrManager': years_with_curr_manager,
-        'EnvironmentSatisfaction': environment_satisfaction,
-        'JobSatisfaction': job_satisfaction,
-        'WorkLifeBalance': work_life_balance,
-        'JobInvolvement': job_involvement,
-        'PerformanceRating': performance_rating,
+        'Age': float(age),
+        'BusinessTravel': str(business_travel),
+        'Department': str(department),
+        'DistanceFromHome': float(distance_from_home),
+        'Education': str(education),
+        'EducationField': str(education_field),
+        'Gender': str(gender),
+        'JobLevel': str(job_level),
+        'JobRole': str(job_role),
+        'MaritalStatus': str(marital_status),
+        'MonthlyIncome': float(monthly_income),
+        'NumCompaniesWorked': float(num_companies_worked),
+        'PercentSalaryHike': float(percent_salary_hike),
+        'StockOptionLevel': str(stock_option_level),
+        'TotalWorkingYears': float(total_working_years),
+        'TrainingTimesLastYear': float(training_times_last_year),
+        'YearsAtCompany': float(years_at_company),
+        'YearsSinceLastPromotion': float(years_since_last_promotion),
+        'YearsWithCurrManager': float(years_with_curr_manager),
+        'EnvironmentSatisfaction': str(environment_satisfaction),
+        'JobSatisfaction': str(job_satisfaction),
+        'WorkLifeBalance': str(work_life_balance),
+        'JobInvolvement': str(job_involvement),
+        'PerformanceRating': str(performance_rating),
     }
 
-    # Convert data to DataFrame
-    df_consulta = pd.DataFrame(datos, index=[0])
-    print(df_consulta)
-    json_consulta = json.dumps(df_consulta.iloc[0].to_dict())
-
-    # Call API
+    # Llamada a la API
     url_flask = 'http://127.0.0.1:5000/predict'
-    response = requests.post(url_flask, json=json_consulta)
+    response = requests.post(url_flask, json=datos)  # Pass 'datos' directly
 
-    # Handle API response
+    # Respuesta de la API
     if response.status_code == 200:
         result = response.json()
+        with st.spinner('Estamos calculando el valor del alquiler...'):
+            time.sleep(3)
         if result['attrition_risk'] == 'Yes':
             st.success(f"Un empleado con las características dadas tiene una probabilidad ALTA de dejar la empresa. Probabilidad: {result['probability']:.2f}")
         else:
             st.success(f"Un empleado con las características dadas tiene una probabilidad BAJA de dejar la empresa. Probabilidad: {result['probability']:.2f}")
     else:
         st.error(f"Error llamando a la API. Código de estado: {response.status_code}")
-        st.write(response.text)
+        try:
+            error_details = response.json()
+            st.write("Detalles del error:", error_details)
+        except json.JSONDecodeError:
+            st.write("No se pudo decodificar la respuesta del error:", response.text)
