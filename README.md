@@ -56,27 +56,26 @@ El proyecto está construido de la siguiente manera:
 ## Lenguaje, librerías y temporalidad
 - El proyecto fué elaborado con Python 3.9 y múltiples librerías de soporte:
 
-| **Categoría**                             | **Librería**                                                                                                   | **Enlace**                                                 |
-|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| *Librerías para el tratamiento de datos*  | Pandas                                                                                                        | [Pandas](https://pandas.pydata.org/docs/)                 |
-|                                           | Numpy                                                                                                         | [Numpy](https://numpy.org/doc/)                           |
-| *Librerías para captura de datos*         | Selenium                                                                                                      | [Selenium](https://selenium-python.readthedocs.io)        |
-|                                           | Beautiful Soup                                                                                               | [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) |
-|                                           | Requests                                                                                                      | [Requests](https://pypi.org/project/requests/)            |
-| *Librerías para gestión de tiempos*       | Time                                                                                                          | [Time](https://docs.python.org/3/library/time.html)       |
-|                                           | tqdm                                                                                                          | [tqdm](https://numpy.org/doc/)                            |
-| *Librerías para gráficas*                 | Plotly                                                                                                        | [Plotly](https://plotly.com/python/)                      |
-|                                           | Seaborn                                                                                                       | [Seaborn](https://seaborn.pydata.org)                     |
-|                                           | Matplotlib                                                                                                    | [Matplotlib](https://matplotlib.org/stable/index.html)    |
-|                                           | shap                                                                                                          | [shap](https://shap.readthedocs.io/en/latest/)            |
-| *Librería para controlar parámetros del sistema* | Sys                                                                                                          | [Sys](https://docs.python.org/3/library/sys.html)         |
-| *Librería para controlar ficheros*        | os                                                                                                           | [os](https://docs.python.org/3/library/os.html)           |
-| *Librería para generar aplicaciones basadas en Python* | streamlit                                                                                                   | [streamlit](https://docs.streamlit.io)                    |
-| *Librería para generar APIs basadas en Python* | flask                                                                                                       | [flask](https://flask.palletsprojects.com/en/stable/)     |
-| *Librería para creación de modelos de Machine Learning* | scikitlearn                                                                                                 | [scikitlearn](https://scikit-learn.org/stable/)           |
-| *Librería para la gestión del desbalanceo* | imblearn                                                                                                     | [imblearn](https://imbalanced-learn.org/stable/)          |
-| *Librería para creación de iteradores (utilizada para combinaciones)* | itertools                                                                                                   | [itertools](https://docs.python.org/3/library/itertools.html) |
-| *Librería para la gestión de avisos*      | warnings                                                                                                     | [warnings](https://docs.python.org/3/library/warnings.html) |
+| **Categoría**                             | **Enlace**                                                                                 |
+|-------------------------------------------|-------------------------------------------------------------------------------------------|
+| *Librerías para el tratamiento de datos*  | [Pandas](https://pandas.pydata.org/docs/)                                                 |
+|                                           | [Numpy](https://numpy.org/doc/)                                                           |
+|                                           | [pickle](https://docs.python.org/3/library/pickle.html)                                                           |
+| *Librerías para gestión de APIs*         | [Requests](https://pypi.org/project/requests/)                                            |
+| *Librerías para gestión de tiempos*       | [Time](https://docs.python.org/3/library/time.html)                                       |
+|                                           | [tqdm](https://numpy.org/doc/)                                                            |
+| *Librerías para gráficas*                 | [Plotly](https://plotly.com/python/)                                                      |
+|                                           | [Seaborn](https://seaborn.pydata.org)                                                     |
+|                                           | [Matplotlib](https://matplotlib.org/stable/index.html)                                    |
+|                                           | [shap](https://shap.readthedocs.io/en/latest/)                                            |
+| *Librería para controlar parámetros del sistema* | [Sys](https://docs.python.org/3/library/sys.html)                                        |
+| *Librería para controlar ficheros*        | [os](https://docs.python.org/3/library/os.html)                                           |
+| *Librería para generar aplicaciones basadas en Python* | [streamlit](https://docs.streamlit.io)                                                  |
+| *Librería para generar APIs basadas en Python* | [flask](https://flask.palletsprojects.com/en/stable/)                                    |
+| *Librería para creación de modelos de Machine Learning* | [scikitlearn](https://scikit-learn.org/stable/)                                         |
+| *Librería para la gestión del desbalanceo* | [imblearn](https://imbalanced-learn.org/stable/)                                          |
+| *Librería para creación de iteradores (utilizada para combinaciones)* | [itertools](https://docs.python.org/3/library/itertools.html)                           |
+| *Librería para la gestión de avisos*      | [warnings](https://docs.python.org/3/library/warnings.html)                               |
 
 - Este proyecto es funcional a fecha 1 de diciembre de 2024.
 
