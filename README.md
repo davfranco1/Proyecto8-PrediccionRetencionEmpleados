@@ -3,9 +3,9 @@
 ![imagen](images/header.jpg)
 
 
-## Planteamiento del problema: **predicción de retención de empleados 🏢 🏢**
+## Planteamiento del problema 🏢 🏢**
 
-- - Este proyecto forma parte de un máster de formación en Data Science e Inteligencia Artificial.
+- Este proyecto forma parte de un máster de formación en Data Science e Inteligencia Artificial.
 
 - Esta vez, nos toca trabajar en Recursos Humanos, y enfrentarnos a uno de los mayores dolores de cabeza de cualquier empresa: la rotación de empleados. ¿Por qué algunas personas deciden quedarse mientras otras se van? ¿Será el salario? ¿Las horas extra? ¿La relación con su jefe?
 
@@ -103,7 +103,7 @@ El proyecto está construido de la siguiente manera:
 
 1. Clona el repositorio
    ```sh
-   git clone https://github.com/davfranco1/Proyecto5-ProyectoLibre-PreciosAlquileresMadrid.git
+   git clone https://github.com/davfranco1/Proyecto8-PrediccionRetencionEmpleados.git
    ```
 
 2. Instala las librerías que aparecen en el apartado anterior. Utiliza en tu notebook de Jupyter:

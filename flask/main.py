@@ -14,12 +14,12 @@ app = Flask(__name__)
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    input_data = request.get_json()
+    datos = request.get_json()
     
-    if not input_data:
+    if not datos:
         return jsonify({"Error": "No hay datos"}), 400
 
-    df_encoded = target.transform(input_data)
+    df_encoded = target.transform(datos)
 
     df_scaled = pd.DataFrame(scaler.transform(df_encoded), columns = scaler.get_feature_names_out())
     prediccion = model.predict(df_scaled)
