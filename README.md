@@ -51,6 +51,8 @@ El proyecto está construido de la siguiente manera:
 
 - **streamlit/**: Carpeta que contiene un archivo `.py` para la ejecución de la app *streamlit*.
 
+- **transformers/**: Carpeta que archivos `.pkl` con los objetos de encoding, scaling y el modelo, usados para la transformación de nuevos datos.
+
 - `.gitignore`: Archivo que contiene los archivos y extensiones que no se subirán a nuestro repositorio, como los archivos .env, que contienen contraseñas.
 
 
