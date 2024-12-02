@@ -138,6 +138,10 @@ El proyecto está construido de la siguiente manera:
    streamlit run main.py
    ```
 
+<div style="text-align: center;">
+    <img src="images/streamlit.png" width="300" alt="streamlit">
+</div>
+
 ## Autor
 
 David Franco - [LinkedIn](https://linkedin.com/in/franco-david)
