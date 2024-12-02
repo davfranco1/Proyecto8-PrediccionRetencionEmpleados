@@ -27,7 +27,7 @@
 
 - El modelo debe ser capaz de responder estas preguntas y ofrecer predicciones precisas que puedan usarse para tomar decisiones informadas. Esto significa que, además de construir un modelo que funcione, se deben  interpretar sus resultados y proponer estrategias basadas en ellos.
 
-- Como reto adicional, nos hemos propuesto crear una app de *streamlit* capaz de hacer una consulta a través de una API de *flask*, de modo que pueda enviarse información a través de un formulario web a la API, que será quién procese la consulta y devuelva por la misma vía la respuesta, que se mostrará en la web creada.
+- Como reto adicional, nos hemos propuesto crear una app de *streamlit* capaz de hacer una consulta a través de una API de *flask*, de modo que pueda enviarse información a través de un formulario web a la API, que será quién procese la consulta, y devuelva por la misma vía la respuesta, que se mostrará en un formato web amigable con el usuario.
 
 
 ## Estructura del repositorio
@@ -40,7 +40,7 @@ El proyecto está construido de la siguiente manera:
 
 - **images/**: Carpeta que contiene archivos de imagen generados durante la ejecución del código o de fuentes externas.
 
-- **notebooks/**: Carpeta que contiene los archivos `.ipynb` utilizados en la captura y tratamiento de los datos. Están numerados para su ejecución secuencial, y contenidos dentro de 5 carpetas, una para cada modelo, conteniendo cada una de ellas:
+- **notebooks/**: Carpeta que contiene los archivos `.ipynb` utilizados en el preprocesamiento y modelado de los datos. Están numerados para su ejecución secuencial, y contenidos dentro de 5 carpetas, una para cada modelo, conteniendo cada una de ellas:
   - `1_EDA`
   - `2_Encoding`
   - `3_Outliers`
@@ -64,6 +64,7 @@ El proyecto está construido de la siguiente manera:
 | *Librerías para el tratamiento de datos*  | [Pandas](https://pandas.pydata.org/docs/)                                                 |
 |                                           | [Numpy](https://numpy.org/doc/)                                                           |
 |                                           | [pickle](https://docs.python.org/3/library/pickle.html)                                                           |
+|                                           | [json](https://www.w3schools.com/python/python_json.asp)                                                           |
 | *Librerías para gestión de APIs*         | [Requests](https://pypi.org/project/requests/)                                            |
 | *Librerías para gestión de tiempos*       | [Time](https://docs.python.org/3/library/time.html)                                       |
 |                                           | [tqdm](https://numpy.org/doc/)                                                            |
@@ -104,7 +105,7 @@ El proyecto está construido de la siguiente manera:
 4. Ejecuta el código en los notebooks, modificándolo si es necesario.
 
 5. Para utilizar la app de Streamlit (que llama a una API de flask para la consulta) y realizar una predicción, tras copiar el repositorio:
-   - Abre una terminal en la carpeta `flask`, y ejecuta el comando `python run main.py`, que abrirá una terminal que servirá para el debugging y pondrá en marcha el servidor.
+   - Abre una terminal en la carpeta `flask`, y ejecuta el comando `python main.py`, que abrirá una terminal que servirá para el debugging y pondrá en marcha el servidor.
    - Sin cerrarla la anterior, abre otra terminal en la carpeta `streamlit`, y ejecuta el comando `streamlit run main.py`, que abrirá un navegador donde se ejecuta automáticamente el código.
    - Recuerda que antes, debes haber instalado las librerías correspondientes (flask y streamlit).
 
@@ -123,13 +124,13 @@ El proyecto está construido de la siguiente manera:
 
 - Nos hemos quedado con el Modelo #5 usando el Decision Tree, por ser el que mejores métricas aporta controlando el overfitting. Al entrenar el modelo con todos los datos, hemos obtenido un recall de 0.90 y una kappa de 0.81.
 
-- Una explicación completa de las métricas y las representaciones gráficas del modelo se pueden consultar en el Notebook [Modelo 5-5_Modelos](notebooks/modelo5/5-5_Modelos.ipynb).
+- Una explicación completa de las métricas y las representaciones gráficas del modelo se pueden consultar en el Notebook [Modelo 5/5-5_Modelos](notebooks/modelo5/5-5_Modelos.ipynb).
 
-- De la misma manera, disponible un PDF resumen con la presentación del problema, los datos, resultados, el modelo elegido, conclusiones y recomendaciones. Disponible para descarga [aquí](datos/Resumen.pdf).
+- De la misma manera, disponible un PDF resumen con la presentación del problema, los datos, resultados, el modelo elegido y recomendaciones basadas en datos. Disponible para descarga [aquí](datos/Resumen.pdf).
 
 - Para realizar una predicción, tras copiar el repositorio, entra en la carpeta `flask`, y ejecuta desde la terminal el archivo `.py` disponible: 
    ```sh
-   python run main.py
+   python main.py
    ```
 
 - Repite el proceso entrando en la carpeta `streamlit`, y ejecuta desde la terminal el archivo `.py` disponible: 

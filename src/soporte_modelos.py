@@ -314,7 +314,7 @@ class AnalisisModelosClasificacion:
 
 
 
-    def curva_roc(self, modelo_nombre):
+    def curva_roc(self, modelo_nombre, figsize=(6,4)):
         if modelo_nombre not in self.resultados:
             raise ValueError(f"Modelo '{modelo_nombre}' no reconocido.")
         
@@ -332,7 +332,7 @@ class AnalisisModelosClasificacion:
         fpr, tpr, thresholds = roc_curve(self.y_test, y_pred_test_prob)
         
         # Plot ROC curve
-        plt.figure(figsize=(8, 6))
+        plt.figure(figsize=figsize)
         sns.lineplot(x=fpr, y=tpr, color="blue", label="Modelo")
         sns.lineplot(x=[0, 1], y=[0, 1], color="grey", linestyle="--", label="Aleatorio")
         
